@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap');
+
+:root {
+    --primary: #4b0082;       /* بنفسجي */
+    --primary-dark: #2a0052;  /* بنفسجي غامق */
+    --accent: #e0aaff;        /* ليلكي */
+    --bg-body: #050505;       /* أسود */
+    --card-bg: #121212;       /* لون الكروت */
+    --text: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
+body { background: var(--bg-body); color: var(--text); direction: rtl; overflow-x: hidden; line-height: 1.6; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+/* --- Header --- */
+header {
+    background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px);
+    position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 2px solid var(--primary);
+}
+.news-ticker { background: var(--primary); color: white; height: 35px; overflow: hidden; display: flex; align-items: center; font-size: 0.85rem; font-weight: bold; }
+.ticker-wrap { display: flex; white-space: nowrap; animation: ticker 40s linear infinite; }
+.ticker-item { margin: 0 40px; display: flex; align-items: center; gap: 10px; }
+@keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+.header-main { height: 75px; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; }
+.logo img { height: 55px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+.hamburger { font-size: 1.8rem; color: var(--accent); cursor: pointer; transition: 0.3s; }
+
+/* Side Menu */
+.side-menu { position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: #000; z-index: 3000; transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1); padding: 20px; border-left: 1px solid #333; }
+.side-menu.active { right: 0; }
+.menu-links a { display: block; padding: 15px; border-bottom: 1px solid #222; font-size: 1.1rem; font-weight: bold; }
+.menu-links a:hover { color: var(--accent); padding-right: 25px; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2500; display: none; }
+.overlay.active { display: block; }
+
+/* --- 1. SUPER HERO SLIDER --- */
+.hero-slider { margin-top: 110px; height: 90vh; position: relative; overflow: hidden; }
+.slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; transform: scale(1.05); }
+.slide.active { opacity: 1; z-index: 1; transform: scale(1); }
+.slide img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+.slide-caption {
+    position: absolute; bottom: 0; width: 100%; padding: 100px 5% 60px;
+    background: linear-gradient(to top, #000 10%, rgba(0,0,0,0.8) 40%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+}
+.cat-badge { background: var(--primary); color: white; padding: 6px 16px; border-radius: 30px; font-weight: bold; width: fit-content; margin-bottom: 15px; font-size: 0.9rem; }
+.slide-caption h1 { font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; line-height: 1.2; text-shadow: 0 5px 20px rgba(0,0,0,1); margin-bottom: 20px; }
+.btn-slide { display: inline-flex; align-items: center; gap: 10px; color: var(--accent); font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid transparent; width: fit-content; }
+.btn-slide:hover { border-color: var(--accent); color: white; }
+
+/* --- Layout System (Swipe for Mobile) --- */
+.section-head { padding: 60px 5% 25px; display: flex; justify-content: space-between; align-items: center; }
+.title { font-size: 1.8rem; font-weight: 900; border-right: 5px solid var(--accent); padding-right: 15px; }
+.view-all-btn { background: rgba(255,255,255,0.1); color: #fff; padding: 8px 20px; border-radius: 30px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); font-weight: bold; }
+
+.swipe-container {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 10px 5%;
+}
+@media (max-width: 768px) {
+    .hero-slider { height: 75vh; }
+    .swipe-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 30px; gap: 15px; }
+    .swipe-container::-webkit-scrollbar { display: none; }
+    .swipe-item { flex: 0 0 88%; scroll-snap-align: center; min-width: 280px; }
+}
+
+/* --- 2. Matches (المباريات) --- */
+.match-card {
+    background: var(--card-bg); border-radius: 16px; border: 1px solid #333; 
+    padding: 25px; text-align: center; position: relative; display: flex; flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s;
+}
+.status-badge { position: absolute; top: 15px; left: 15px; font-size: 0.8rem; padding: 4px 10px; background: #333; border-radius: 4px; color: #ccc; font-weight: bold; }
+.status-badge.live { background: #d00000; color: white; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+.teams-row { display: flex; justify-content: space-between; align-items: center; margin: 20px 0; }
+.team-col { display: flex; flex-direction: column; align-items: center; width: 30%; }
+.team-col img { height: 60px; object-fit: contain; margin-bottom: 10px; }
+.team-col span { font-weight: 700; font-size: 0.9rem; }
+.vs-col { font-size: 1.8rem; font-weight: 900; color: var(--accent); }
+.match-btn { margin-top: auto; background: var(--primary); color: white; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; }
+
+/* --- 3. News Cards --- */
+.news-card { 
+    background: var(--card-bg); border-radius: 16px; overflow: hidden; height: 100%; 
+    transition: 0.4s; border: 1px solid #222; display: flex; flex-direction: column;
+}
+.news-img-box { position: relative; height: 220px; overflow: hidden; }
+.news-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+.news-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); display: flex; align-items: flex-end; padding: 15px; }
+.news-cat { background: var(--primary); font-size: 0.75rem; padding: 3px 10px; border-radius: 4px; font-weight: bold; }
+.news-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.news-title { font-size: 1.2rem; font-weight: 800; line-height: 1.4; margin-bottom: 15px; }
+.news-meta { display: flex; justify-content: space-between; color: #888; font-size: 0.85rem; border-top: 1px solid #333; padding-top: 15px; }
+
+/* --- 4. Store --- */
+.store-card { background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border-radius: 20px; padding: 25px; text-align: center; border: 1px solid #222; position: relative; }
+.store-card img { width: 100%; height: 240px; object-fit: contain; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); transition: 0.4s; }
+.price-tag { background: var(--accent); color: #000; font-weight: 900; font-size: 1.1rem; padding: 5px 15px; border-radius: 50px; display: inline-block; margin-bottom: 10px; }
+.buy-btn { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--primary); color: white; border-radius: 10px; font-weight: bold; cursor: pointer; }
+.buy-btn:hover { background: var(--primary); }
+
+/* --- 5. Browse More (تصفح أكثر) --- */
+.browse-section {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px; padding: 0 5%; margin-top: 20px;
+}
+.browse-card {
+    height: 280px; border-radius: 20px; overflow: hidden; position: relative;
+    cursor: pointer; background-color: #000; border: 1px solid #333;
+}
+.browse-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.5s; }
+.browse-card:hover img { opacity: 0.4; transform: scale(1.1); }
+.browse-overlay {
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    background: linear-gradient(to top, var(--primary) 0%, transparent 100%);
+    padding: 25px;
+}
+.browse-title { font-size: 1.6rem; font-weight: 900; color: white; }
+.browse-subtitle { color: var(--accent); font-size: 0.9rem; margin-top: 5px; }
+
+/* --- 6. Players (Pro Cards) --- */
+.players-wrapper { display: flex; overflow-x: auto; gap: 20px; padding: 20px 5% 40px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.players-wrapper::-webkit-scrollbar { display: none; }
+.player-card-pro {
+    flex: 0 0 220px; height: 320px; position: relative; border-radius: 20px; overflow: hidden; scroll-snap-align: start;
+    background: linear-gradient(180deg, var(--primary-dark) 0%, #000 100%); border: 1px solid #333;
+}
+.player-bg-num { position: absolute; top: 10px; right: 10px; font-size: 4rem; font-weight: 900; color: rgba(255,255,255,0.05); z-index: 0; line-height: 1; }
+.player-img { position: absolute; bottom: 60px; width: 100%; height: 85%; object-fit: cover; object-position: top center; z-index: 1; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+.player-info {
+    position: absolute; bottom: 0; width: 100%; height: 70px; background: #fff; color: #000; z-index: 2;
+    clip-path: polygon(0 20%, 100% 0, 100% 100%, 0% 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 10px;
+}
+.p-name { font-weight: 900; font-size: 1.2rem; }
+.p-role { font-size: 0.8rem; color: #555; font-weight: bold; }
+
+/* --- Footer --- */
+footer { background: #080808; border-top: 6px solid var(--primary); padding: 80px 5% 30px; margin-top: 100px; text-align: center; }
+.footer-logo { width: 200px; filter: drop-shadow(0 0 15px var(--primary)); margin-bottom: 25px; }
+.footer-bio { max-width: 600px; margin: 0 auto 30px; color: #888; font-size: 1rem; }
+.footer-socials a { font-size: 1.8rem; color: #fff; margin: 0 15px; transition: 0.3s; }
+.footer-socials a:hover { color: var(--accent); }
+.copy { margin-top: 40px; padding-top: 20px; border-top: 1px solid #222; font-size: 0.9rem; color: #555; }
